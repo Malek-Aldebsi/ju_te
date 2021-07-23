@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { upload } from "../../actions/engine";
+import { upload, delete_current } from "../../actions/engine";
 
 class Main extends Component {
   constructor(props) {
@@ -23,29 +23,43 @@ class Main extends Component {
     this.props.upload({
       aspect,
       type,
-      file: this.fileInput.current.files[0],
+      image: this.fileInput.current.files[0],
     });
   };
 
   render() {
     let body = <div></div>;
 
-    if (this.props.processed_file_path) {
+    if (this.props.isLoading) {
+      body = <div className="row justify-content-md-center mt-5">Loading</div>;
+    } else if (this.props.assessment) {
       body = (
-        <div className="row justify-content-center mt-2">
-          <div className=" col-xs-12 col-sm-8 col-md-6 text-center">
-            <img
-              className="img-fluid img-thumbnail"
-              src={this.props.processed_file_path}
-              style={{ maxHeight: "400px" }}
-            ></img>
+        <div className="row justify-content-center mt-5">
+          <div className="col-xs-12 col-md-6">
+            <div className="card">
+              <div className="card-header">
+                <h4 className="h4">Tooth Picture</h4>
+              </div>
+              <img
+                className="img-fluid"
+                src={this.props.assessment.processed_image}
+                style={{ maxHeight: "400px" }}
+              ></img>
+              <div className="card-body">
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={this.props.delete_current}
+                >
+                  Refresh
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       );
-    }
-
-    return (
-      <div className="container">
+    } else {
+      body = (
         <div className="row justify-content-md-center mt-5">
           <div className="col-xs-12 col-md-6">
             <div className="card">
@@ -123,15 +137,16 @@ class Main extends Component {
             </div>
           </div>
         </div>
-        {body}
-      </div>
-    );
+      );
+    }
+
+    return <div className="container">{body}</div>;
   }
 }
 
 const mapStateToProps = (state) => ({
   isLoading: state.engine.isLoading,
-  processed_file_path: state.engine.processed_file_path,
+  assessment: state.engine.assessment,
 });
 
-export default connect(mapStateToProps, { upload })(Main);
+export default connect(mapStateToProps, { upload, delete_current })(Main);

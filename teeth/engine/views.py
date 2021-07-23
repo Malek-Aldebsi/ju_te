@@ -1,11 +1,10 @@
-import io
 from django.http.response import JsonResponse, FileResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from io import BytesIO
 from PIL import Image
-from .models import Process
+from .models import Assessment
 
 @csrf_exempt
 def upload(request):
@@ -26,7 +25,7 @@ def upload(request):
             charset=None
         )
 
-        process = Process.objects.create(original_image=file, processed_image=image)
+        process = Assessment.objects.create(original_image=file, processed_image=image)
         process.save()
     
         return JsonResponse({"processed_file_path": process.processed_image.url})

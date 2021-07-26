@@ -1,14 +1,11 @@
-from .models import Assessment
+from .models import Assessment, Note
 from rest_framework import viewsets, permissions
 from .serializers import AssessmentSerializer
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.core.files.base import ContentFile
-from rest_framework.decorators import action
 from rest_framework import status
 from rest_framework.response import Response
 from django.http import Http404
-from io import BytesIO
-from PIL import Image
 from .serializers import AssessmentSerializer
 from .process.image_processor import buccal
 import numpy as np
@@ -60,7 +57,10 @@ class AssessmentViewSet(viewsets.ModelViewSet):
         content = ContentFile(buf.tobytes())        
         instance = serializer.save()
         instance.processed_image.save(original.name, content)
-
+        
+        #create and save instances saved by 
+        for note in notes:
+            Note.objects.create(note=note, assessment=instance)
     """
     @action(detail=True)
     def process(self, request, *args, **kwargs):

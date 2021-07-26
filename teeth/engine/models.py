@@ -31,4 +31,11 @@ class Assessment(models.Model):
     note = models.CharField(max_length=256, blank=True)
     permanent= models.BooleanField(default=False)
     submitted_at = models.DateField(auto_now_add=True)
+
+
+class Note(models.Model):
+    assessment = models.ForeignKey(Assessment, related_name='notes', on_delete=models.CASCADE)
+    note = models.CharField(max_length=256, blank=False)
     
+    def __str__(self) -> str:
+        return self.note

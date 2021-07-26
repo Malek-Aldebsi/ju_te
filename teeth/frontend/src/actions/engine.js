@@ -26,20 +26,37 @@ export const upload =
       .catch((err) => console.log(err));
   };
 
-export const delete_current = () => (dispatch, getState) => {
-  const id = getState().engine.assessment.id;
+export const delete_current =
+  (should_remove_current_assessment) => (dispatch, getState) => {
+    if (should_remove_current_assessment === true) {
+      dispatch({
+        type: DELETE_CURRENT,
+        payload: should_remove_current_assessment,
+      });
+      return;
+    }
 
-  const config = {
-    headers: {
-      // "X-CSRFToken": getCookie("csrftoken"),
-    },
+    if (!getState().engine.assessment) return;
+
+    const id = getState().engine.assessment.id;
+
+    const config = {
+      headers: {
+        "X-CSRFToken": getCookie("csrftoken"),
+        "Content-Type": "application/json",
+      },
+    };
+
+    axios
+      .delete(`engine/api/assessments/${id}/`, config)
+      .then((res) =>
+        dispatch({
+          type: DELETE_CURRENT,
+          payload: should_remove_current_assessment,
+        })
+      )
+      .catch((err) => console.log(err));
   };
-
-  axios
-    .delete(`engine/api/assessments/${id}/`, null, config)
-    .then((res) => dispatch({ type: DELETE_CURRENT }))
-    .catch((err) => console.log(err));
-};
 
 function getCookie(name) {
   let cookieValue = null;

@@ -29,12 +29,20 @@ export default function (state = initialState, action) {
       };
 
     case DELETE_CURRENT:
-      return {
-        ...state,
-        isLoading: false,
-        assessment: null,
-        errors: null,
-      };
+      if (action.payload) {
+        return {
+          ...state,
+          isLoading: false,
+          assessment: null,
+          errors: null,
+        };
+      } else {
+        return {
+          ...state,
+          isLoading: false,
+          errors: null,
+        };
+      }
 
     default:
       return state;

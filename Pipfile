@@ -8,6 +8,8 @@ django = "*"
 django-rest-framework = "*"
 django-rest-knox = "*"
 pillow = "*"
+opencv-python = "*"
+numpy = "*"
 
 [dev-packages]
 

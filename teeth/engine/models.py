@@ -1,8 +1,6 @@
 from django.db import models
 
 class Assessment(models.Model):
-
-
     IMAGE_ASPECT = [
         ("Labial", "Labial"),
         ("Lingual", "Lingual"),
@@ -28,9 +26,7 @@ class Assessment(models.Model):
 
     original_image = models.ImageField(upload_to="original")
     processed_image = models.ImageField(upload_to="processed", blank=True)
-    note = models.CharField(max_length=256, blank=True)
-    permanent= models.BooleanField(default=False)
-    submitted_at = models.DateField(auto_now_add=True)
+    submitted_at = models.DateTimeField(auto_now_add=True)
 
 
 class Note(models.Model):

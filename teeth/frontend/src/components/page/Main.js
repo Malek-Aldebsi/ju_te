@@ -44,6 +44,11 @@ class Main extends Component {
         </div>
       );
     } else if (this.props.assessment) {
+      const notes = this.props.assessment.notes.map((note, id) => (
+        <li key={id} className="list-group-item">
+          {note.note}
+        </li>
+      ));
       body = (
         <Fragment>
           <img
@@ -52,6 +57,7 @@ class Main extends Component {
             style={{ maxHeight: "400px" }}
           ></img>
           <div className="card-body">
+            <ul className="list-group list-group-flush">{notes}</ul>
             <button
               type="button"
               className="btn btn-primary"

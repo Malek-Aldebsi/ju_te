@@ -21,7 +21,10 @@ export const upload =
     axios
       .post("engine/api/assessments/", formData, config)
       .then((res) => {
-        dispatch({ type: UPLOAD_SUCCESS, payload: res.data });
+        axios
+          .get(`engine/api/assessments/${res.data.id}/`)
+          .then((res) => dispatch({ type: UPLOAD_SUCCESS, payload: res.data }))
+          .catch((err) => console.log(err));
       })
       .catch((err) => console.log(err));
   };

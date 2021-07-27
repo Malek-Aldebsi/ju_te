@@ -21,6 +21,7 @@ export default function (state = initialState, action) {
       };
 
     case UPLOAD_SUCCESS:
+      console.log(JSON.stringify(action.payload));
       return {
         ...state,
         assessment: action.payload,

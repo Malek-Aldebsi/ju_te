@@ -67,7 +67,6 @@ class Main extends Component {
             </button>
 
             <a
-              ty
               className="btn btn-primary"
               href={`engine/api/assessments/${this.props.assessment.id}/report/`}
             >

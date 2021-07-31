@@ -68,7 +68,7 @@ class AssessmentViewSet(viewsets.ModelViewSet):
         instance = self.get_object()
         notes = [note.note for note in Note.objects.filter(assessment=instance)]
         name, extention = os.path.splitext(instance.original_image.name)
-
+        
         #
         pdf = FPDF()
         pdf.set_title(name)

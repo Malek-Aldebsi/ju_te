@@ -7,7 +7,10 @@ from rest_framework.response import Response
 from django.http import Http404
 from .serializers import AssessmentSerializer
 from .process.image_processor import buccal
+from rest_framework.decorators import action
+from fpdf import FPDF
 import numpy as np
+from django.http import HttpResponse
 import cv2
 import os
 
@@ -58,3 +61,26 @@ class AssessmentViewSet(viewsets.ModelViewSet):
         except Http404:
             return Response(status=status.HTTP_404_NOT_FOUND)
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+    
+    @action(detail=True)
+    def report(self, request, *args, **kwargs):
+        instance = self.get_object()
+        notes = [note.note for note in Note.objects.filter(assessment=instance)]
+        name, extention = os.path.splitext(instance.original_image.name)
+
+        #
+        pdf = FPDF()
+        pdf.set_title(name)
+        pdf.add_page()
+        pdf.image(instance.processed_image.path, w=150, h=250, x=10, y=10)
+        pdf.add_page()
+        pdf.set_font('Arial', 'B', 16)
+        for note in notes:
+            pdf.cell(60, 10, note, ln=True)
+        
+        pdf = pdf.output( dest='S').encode('latin-1', errors='ignore')
+        response = HttpResponse(content_type='application/force-download')
+        response['Content-Disposition'] = 'attachment; filename=' f'"{name}.pdf"'
+        response.write(pdf)
+        return response

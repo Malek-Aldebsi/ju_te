@@ -61,6 +61,10 @@ export const delete_current =
       .catch((err) => console.log(err));
   };
 
+export const download = (id) => (dispatch) => {
+  axios.get(`engine/api/assessments/${id}/report/`);
+};
+
 function getCookie(name) {
   let cookieValue = null;
   if (document.cookie && document.cookie !== "") {

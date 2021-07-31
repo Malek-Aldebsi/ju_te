@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
-import { upload, delete_current } from "../../actions/engine";
+import { upload, delete_current, download } from "../../actions/engine";
 
 class Main extends Component {
   constructor(props) {
@@ -14,7 +14,7 @@ class Main extends Component {
   };
 
   componentDidUpdate() {
-    this.props.delete_current(false);
+    //this.props.delete_current(false);
   }
 
   handleChange = (event) => {
@@ -63,8 +63,16 @@ class Main extends Component {
               className="btn btn-primary"
               onClick={() => this.props.delete_current(true)}
             >
-              Refresh
+              ReSubmit Another
             </button>
+
+            <a
+              ty
+              className="btn btn-primary"
+              href={`engine/api/assessments/${this.props.assessment.id}/report/`}
+            >
+              Save
+            </a>
           </div>
         </Fragment>
       );
@@ -163,4 +171,6 @@ const mapStateToProps = (state) => ({
   assessment: state.engine.assessment,
 });
 
-export default connect(mapStateToProps, { upload, delete_current })(Main);
+export default connect(mapStateToProps, { upload, delete_current, download })(
+  Main
+);

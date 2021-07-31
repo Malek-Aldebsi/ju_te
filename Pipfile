@@ -10,6 +10,7 @@ django-rest-knox = "*"
 pillow = "*"
 opencv-python = "*"
 numpy = "*"
+fpdf = "*"
 
 [dev-packages]
 

@@ -54,10 +54,11 @@ class Main extends Component {
           <img
             className="img-fluid"
             src={this.props.assessment.processed_image}
-            style={{ maxHeight: "400px" }}
+            style={{ maxHeight: "1000px", width: "100%" }}
           ></img>
           <div className="card-body">
             <ul className="list-group list-group-flush">{notes}</ul>
+
             <button
               type="button"
               className="btn btn-primary"
@@ -67,7 +68,7 @@ class Main extends Component {
             </button>
 
             <a
-              className="btn btn-primary"
+              className="btn btn-primary ms-1"
               href={`engine/api/assessments/${this.props.assessment.id}/report/`}
             >
               Save

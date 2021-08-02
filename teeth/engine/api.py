@@ -73,11 +73,11 @@ class AssessmentViewSet(viewsets.ModelViewSet):
         pdf = FPDF()
         pdf.set_title(name)
         pdf.add_page()
-        pdf.image(instance.processed_image.path, w=150, h=250, x=10, y=10)
-        pdf.add_page()
-        pdf.set_font('Arial', 'B', 16)
+        pdf.image(instance.processed_image.path, w=120, x=40, y=5)
+        pdf.set_font('Arial', 'B', 14)
+        pdf.set_y(180)
         for note in notes:
-            pdf.cell(60, 10, note, ln=True)
+            pdf.cell(60, 8, "-" + note, ln=True)
         
         pdf = pdf.output( dest='S').encode('latin-1', errors='ignore')
         response = HttpResponse(content_type='application/force-download')

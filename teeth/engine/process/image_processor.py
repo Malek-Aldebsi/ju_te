@@ -1,18 +1,26 @@
 import numpy as np
 import cv2
+from django.conf import settings
+import os
+
 
 def buccal(img) :
-
     img = img
     org = img
+    perfect = cv2.imread(os.path.join(settings.STATIC_ROOT, "engine/buccal perfect11.jpg"), cv2.IMREAD_UNCHANGED)
+    perf = perfect
     hue, sat, val = cv2.split(cv2.cvtColor(img, cv2.COLOR_RGB2HSV))
     blank_image1 = np.zeros((img.shape[0], img.shape[1], 3), np.uint8)
-    blank_image2 = np.zeros((org.shape[0], img.shape[1], 3), np.uint8)
+    blank_image2= np.zeros((perf.shape[0],perf.shape[1],3), np.uint8)
     kernel = np.ones((5, 5), np.uint8)
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     ret, thresh = cv2.threshold(gray, 40, 255, 0)
+    gray1 = cv2.cvtColor(perf, cv2.COLOR_BGR2GRAY)
+    ret1, thresh1 = cv2.threshold(gray1, 80, 255, 0)
     contours, hierarchy = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+    contours1, hierarchy1 = cv2.findContours(thresh1, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     area = 0
+    area1=0
     for c in contours:
         M = cv2.moments(c)
         if M['m00'] != 0:
@@ -20,6 +28,13 @@ def buccal(img) :
             if cv2.contourArea(c) > area:
                 cnt_base = c
                 area = cv2.contourArea(c)
+    for c in contours1:
+        M = cv2.moments(c)
+        if M['m00'] != 0:
+            cy = int(M['m01'] / M['m00'])
+            if cv2.contourArea(c) > area1:
+                cnt_perfect = c
+                area1 = cv2.contourArea(c)
     extLeft_base = (cnt_base[cnt_base[:, :, 0].argmin()][0])
     extRight_base = (cnt_base[cnt_base[:, :, 0].argmax()][0])
     extTop_base = (cnt_base[cnt_base[:, :, 1].argmin()][0])
@@ -143,8 +158,8 @@ def buccal(img) :
     arrayofString.append(a7)
     arrayofString.append(a8)
     arrayofString.append(a9)
-    cv2.drawContours(blank_image1, [gcnt], -1, (255, 255, 255), -1)
-    cv2.drawContours(blank_image2, [cnt_base], -1, (255, 255, 255), -1)
+    cv2.drawContours(blank_image1, [cnt_perfect], -1, (255, 255, 255), -1)
+    cv2.drawContours(blank_image2, [cnt_tooth], -1, (255, 255, 255), -1)
     blank_image1 = cv2.cvtColor(blank_image1, cv2.COLOR_BGR2GRAY)
     blank_image2 = cv2.cvtColor(blank_image2, cv2.COLOR_BGR2GRAY)
 
@@ -154,8 +169,14 @@ def buccal(img) :
     dim = (width, height)
     img = cv2.resize(img, dim, interpolation=cv2.INTER_AREA)
     org = cv2.resize(org, dim, interpolation=cv2.INTER_AREA)
+    coef_y = 0.5
+    coef_x = 0.5
+    cnt_perfect[:, :, 0] = cnt_perfect[:, :, 0] * coef_x
+    cnt_perfect[:, :, 1] = cnt_perfect[:, :, 1] * coef_y
+    blank_image3 = np.zeros((img.shape[0], img.shape[1], 3), np.uint8)
+    cv2.drawContours(blank_image3, [cnt_perfect], -1, (255, 255, 255), -1)
     #cv2.imshow('org', org)
-    cv2.waitKey(0)
+    #cv2.waitKey(0)
     return arrayofString ,org
 
     cv2.waitKey(0)

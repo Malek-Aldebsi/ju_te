@@ -36,5 +36,13 @@
     "style-loader": "^3.1.0",
     "webpack": "^5.44.0",
     "webpack-cli": "^4.7.2"
+  },
+  "dependencies": {
+    "@chakra-ui/react": "^1.6.8",
+    "@emotion/react": "^11.4.1",
+    "@emotion/styled": "^11.3.0",
+    "formik": "^2.2.9",
+    "framer-motion": "^4.1.17",
+    "recoil": "^0.4.1"
   }
 }

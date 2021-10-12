@@ -41,8 +41,11 @@
     "@chakra-ui/react": "^1.6.8",
     "@emotion/react": "^11.4.1",
     "@emotion/styled": "^11.3.0",
+    "@reduxjs/toolkit": "^1.6.2",
+    "core-js": "^2.6.12",
     "formik": "^2.2.9",
     "framer-motion": "^4.1.17",
-    "recoil": "^0.4.1"
+    "recoil": "^0.4.1",
+    "regenerator-runtime": "^0.13.9"
   }
 }

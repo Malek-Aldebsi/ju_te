@@ -1,7 +1,6 @@
-import React, { Component, Fragment, useRef } from 'react'
-import { connect } from 'react-redux'
-import { upload, delete_current, download } from '../../actions/engine'
-import { Field, Form, Formik } from 'formik'
+import React, { useRef } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { uploadImage, actions, downloadReport } from '../../reducers/engine'
 import { Box, Center, HStack, List } from '@chakra-ui/layout'
 import { FormControl, FormLabel } from '@chakra-ui/form-control'
 import { Select } from '@chakra-ui/select'
@@ -9,164 +8,49 @@ import { Input, InputGroup, InputRightElement } from '@chakra-ui/input'
 import { Image } from '@chakra-ui/image'
 import { Button } from '@chakra-ui/button'
 import { Spinner } from '@chakra-ui/spinner'
-import { useRecoilState } from 'recoil'
-import { engineState } from '../../states'
 import { UnorderedList, ListItem } from '@chakra-ui/layout'
+import { Tabs, TabList, Tab, TabPanels, TabPanel } from '@chakra-ui/tabs'
 
-export default function Main () {}
+import { ToothWrapper } from '../engine/ToothWrapper'
 
-function ToothForm () {
-  const photoRef = useRef()
-  const aspectOptions = [
-    {
-      label: 'type 1',
-      value: 'type 1'
-    },
-    {
-      label: 'Others',
-      value: 'Others'
-    }
-  ]
-
-  const angleOptions = [
-    {
-      label: 'Labial',
-      value: 'Labial'
-    },
-    {
-      label: 'Lingual',
-      value: 'Lingual'
-    },
-    {
-      label: 'Mesial',
-      value: 'Mesial'
-    },
-    {
-      label: 'Destial',
-      value: 'Destial'
-    },
-    {
-      label: 'top view',
-      value: 'top view'
-    }
-  ]
-
-  const initialValues = {
-    aspect: '',
-    angle: '',
-    file: null
-  }
-  const onSubmit = values => {
-    console.log(values)
-    alert('submitted successfully')
-  }
-
+export function Main () {
   return (
-    <Box m={[2, 4, 12]} p={6}>
-      <Formik initialValues={initialValues} onSubmit={onSubmit}>
-        <Form>
-          <Field name='aspect'>
-            {({ field, form }) => (
-              <FormControl isRequired mb={3}>
-                <FormLabel htmlFor='aspect'>Photo Aspect</FormLabel>
-                <Select {...field}>
-                  {aspectOptions.map((item, idx) => (
-                    <option key={idx} value={item.value}>
-                      {item.label}
-                    </option>
-                  ))}
-                </Select>
-              </FormControl>
-            )}
-          </Field>
-          <Field name='angle'>
-            {({ field, form }) => (
-              <FormControl isRequired mb={3}>
-                <FormLabel htmlFor='angle'>Photo angle</FormLabel>
-                <Select {...field}>
-                  {angleOptions.map((item, idx) => (
-                    <option key={idx} value={item.value}>
-                      {item.label}
-                    </option>
-                  ))}
-                </Select>
-              </FormControl>
-            )}
-          </Field>
-          <Field name='file'>
-            {({ field, form }) => (
-              <FormControl isRequired mb={3}>
-                <FormLabel htmlFor='angle'>Tooth Photo</FormLabel>
-                <Input
-                  type='file'
-                  display='none'
-                  onChange={e =>
-                    form.setFieldValue('file', e.currentTarget.files[0])
-                  }
-                  ref={photoRef}
-                />
-                <InputGroup>
-                  <Input
-                    isReadOnly
-                    value={field?.value?.name || 'Upload a Photo'}
-                  />
-
-                  <InputRightElement w='30%'>
-                    <Button
-                      w='100%'
-                      colorScheme='blue'
-                      onClick={() => photoRef.current.click()}
-                    >
-                      Upload
-                    </Button>
-                  </InputRightElement>
-                </InputGroup>
-              </FormControl>
-            )}
-          </Field>
-          <Button type='submit'>Submit</Button>
-        </Form>
-      </Formik>
-    </Box>
-  )
-}
-
-function Loading () {
-  return (
-    <Center>
-      <Spinner size='xl' />
+    <Center w='100%'>
+      <Box
+        w={['100%', '100%', '60%']}
+        m={16}
+        rounded='lg'
+        shadow='sm'
+        border='1px solid lightgray'
+      >
+        <Tabs isFitted>
+          <TabList>
+            <Tab>Labial</Tab>
+            <Tab>Lingual</Tab>
+            <Tab>Mesial</Tab>
+            <Tab>Destial</Tab>
+            <Tab>Top View</Tab>
+          </TabList>
+          <TabPanels>
+            <TabPanel>
+              <ToothWrapper aspect='labial' title='Labial' />
+            </TabPanel>
+            <TabPanel>
+              <ToothWrapper aspect='lingual' title='Lingual' />
+            </TabPanel>
+            <TabPanel>
+              <ToothWrapper aspect='mesial' title='Mesial' />
+            </TabPanel>
+            <TabPanel>
+              <ToothWrapper aspect='destial' title='Destial' />
+            </TabPanel>
+            <TabPanel>
+              <ToothWrapper aspect='top' title='Top View' />
+            </TabPanel>
+          </TabPanels>
+        </Tabs>
+      </Box>
     </Center>
-  )
-}
-
-function Result () {
-  const [engineObject, setEngineObject] = useRecoilState(engineState)
-  return (
-    <Box>
-      <Image
-        src={this.props.assessment.processed_image}
-        width='100%'
-        maxH='800px'
-      />
-      <UnorderedList>
-        {engineObject.assessment.notes.map((note, idx) => (
-          <ListItem key={idx}>note</ListItem>
-        ))}
-      </UnorderedList>
-
-      <HStack w='100%' justify='space-between' spacing={6}>
-        <Button>ReSubmit Another</Button>
-        <Button
-          onClick={() =>
-            fetch(
-              `engine/api/assessments/${engineObject.assessment.id}/report/`
-            )
-          }
-        >
-          Save
-        </Button>
-      </HStack>
-    </Box>
   )
 }
 

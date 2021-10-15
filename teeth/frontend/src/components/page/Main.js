@@ -17,6 +17,7 @@ export function Main () {
   return (
     <Center w='100%'>
       <Box
+        bg='white'
         w={['100%', '100%', '60%']}
         m={16}
         rounded='lg'

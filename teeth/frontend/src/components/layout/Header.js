@@ -1,27 +1,26 @@
-import React from "react";
+import { HStack, Flex, Heading } from '@chakra-ui/layout'
+import { Avatar } from '@chakra-ui/avatar'
+import React from 'react'
 
-function Header(props) {
+export function Header (props) {
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light">
-      <div className="container-fluid">
-        <a className="navbar-brand" href="#">
-          Teeth
-        </a>
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNavDropdown"
-          aria-controls="navbarNavDropdown"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
-        <div className="collapse navbar-collapse" id="navbarNavDropdown"></div>
-      </div>
-    </nav>
-  );
+    <Flex
+      align='center'
+      wrap='wrap'
+      padding={6}
+      color='white'
+      bg='blue.700'
+      justify='space-between'
+      as='nav'
+      w='100%'
+      shadow='md'
+    >
+      <HStack h='full' align='center' spacing={6} justify='left'>
+        <Avatar src={'static/frontend/img/logo.jpg'} />
+        <Heading size='lg' letterSpacing='tighter' as='h1'>
+          Teeth Project
+        </Heading>
+      </HStack>
+    </Flex>
+  )
 }
-
-export default Header;

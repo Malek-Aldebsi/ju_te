@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { actions } from '../../reducers/engine'
-import { Box, Center, HStack, VStack } from '@chakra-ui/layout'
+import { Box, Center, HStack, VStack, Flex } from '@chakra-ui/layout'
 import { Image } from '@chakra-ui/image'
 import { Button } from '@chakra-ui/button'
 
@@ -12,16 +12,24 @@ export function Result ({ aspect }) {
 
   return (
     <Box w='100%' h='100%'>
-      <Center mb={6} w='100%'>
-        <Image src={assessment.processed_image} maxH='800px' w='auto' />
-      </Center>
-      <VStack mb={6}>
-        {assessment.notes.map(({ note }, idx) => (
-          <Box w='100%' p={6} borderTop='1px' borderColor='gray.200' key={idx}>
-            {note}
-          </Box>
-        ))}
-      </VStack>
+      <Flex w='100%' direction={['column', 'row', 'row']}>
+        <Center mb={6}>
+          <Image src={assessment.processed_image} maxH='600px' w='auto' />
+        </Center>
+        <VStack mb={6} maxH='600px' overflow='scroll'>
+          {assessment.notes.map(({ note }, idx) => (
+            <Box
+              w='100%'
+              p={6}
+              borderTop='1px'
+              borderColor='gray.200'
+              key={idx}
+            >
+              {note}
+            </Box>
+          ))}
+        </VStack>
+      </Flex>
 
       <HStack w='100%' justify='left' spacing={6}>
         <Button

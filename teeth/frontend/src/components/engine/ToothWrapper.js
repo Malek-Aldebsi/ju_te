@@ -25,7 +25,7 @@ export function ToothWrapper ({ aspect, title }) {
   }
 
   return (
-    <Box m={[2, 4, 12]} minH='624px' p={6}>
+    <Box h={['100%', '524px', '400px']} px={[0, 3, 6]} py={[2, 4, 6]}>
       <Center w='100%' mb={12} fontSize='xl'>
         {title}
       </Center>

@@ -3,7 +3,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios'
 
 const initialState = {
-  labial: {
+  buccal: {
     errors: null,
     isLoading: false,
     assessment: null,
@@ -21,13 +21,13 @@ const initialState = {
     assessment: null,
     data: { type: 'type 1', image: null }
   },
-  destial: {
+  distal: {
     errors: null,
     isLoading: false,
     assessment: null,
     data: { type: 'type 1', image: null }
   },
-  top: {
+  top_view: {
     errors: null,
     isLoading: false,
     assessment: null,
@@ -58,7 +58,7 @@ export const uploadImage = createAsyncThunk(
     reduxAPI.dispatch(actions.uploadLoading(aspect))
 
     const formData = new FormData()
-    formData.append('image_aspect', aspect[0].toUpperCase() + aspect.slice(1))
+    formData.append('image_aspect', aspect)
     formData.append('image_type', type)
     formData.append('original_image', image)
 

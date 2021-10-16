@@ -6,7 +6,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from django.http import Http404
 from .serializers import AssessmentSerializer
-from .process.image_processor import buccal
+from .process.image_processor import buccal, distal, mesial, lingual, top_view
 from rest_framework.decorators import action
 from fpdf import FPDF
 import numpy as np
@@ -14,6 +14,13 @@ from django.http import HttpResponse
 import cv2
 import os
 
+processors = {
+    "buccal": buccal,
+    "distal": distal,
+    "mesial": mesial,
+    "lingual": lingual,
+    "top_view": top_view
+}
 
 #Assessment viewset
 class AssessmentViewSet(viewsets.ModelViewSet):
@@ -32,7 +39,9 @@ class AssessmentViewSet(viewsets.ModelViewSet):
         image = cv2.imdecode(image, cv2.IMREAD_UNCHANGED)
 
         #process image using cv2
-        notes, image = buccal(image)
+        image_aspect = self.request.data['image_aspect']
+
+        notes, image = processors[image_aspect](image)
         _ , buf = cv2.imencode(extention, image)
             
         #save image in the processed_image field

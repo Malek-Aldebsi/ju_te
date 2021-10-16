@@ -2,11 +2,11 @@ from django.db import models
 
 class Assessment(models.Model):
     IMAGE_ASPECT = [
-        ("Labial", "Labial"),
-        ("Lingual", "Lingual"),
-        ("Mesial", "Mesial"),
-        ("Destial", "Destial"),
-        ("top view", "top view")
+        ("buccal", "buccal"),
+        ("lingual", "lingual"),
+        ("mesial", "mesial"),
+        ("distal", "distal"),
+        ("top_view", "top_view")
     ]
 
     image_aspect = models.CharField(

@@ -1,16 +1,6 @@
-import React, { useRef } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { uploadImage, actions, downloadReport } from '../../reducers/engine'
-import { Box, Center, HStack, List } from '@chakra-ui/layout'
-import { FormControl, FormLabel } from '@chakra-ui/form-control'
-import { Select } from '@chakra-ui/select'
-import { Input, InputGroup, InputRightElement } from '@chakra-ui/input'
-import { Image } from '@chakra-ui/image'
-import { Button } from '@chakra-ui/button'
-import { Spinner } from '@chakra-ui/spinner'
-import { UnorderedList, ListItem } from '@chakra-ui/layout'
+import React from 'react'
+import { Box, Center } from '@chakra-ui/layout'
 import { Tabs, TabList, Tab, TabPanels, TabPanel } from '@chakra-ui/tabs'
-
 import { ToothWrapper } from '../engine/ToothWrapper'
 
 export function Main () {
@@ -26,15 +16,15 @@ export function Main () {
       >
         <Tabs isFitted>
           <TabList>
-            <Tab>Labial</Tab>
+            <Tab>Buccal</Tab>
             <Tab>Lingual</Tab>
             <Tab>Mesial</Tab>
-            <Tab>Destial</Tab>
+            <Tab>Distal</Tab>
             <Tab>Top View</Tab>
           </TabList>
           <TabPanels>
             <TabPanel>
-              <ToothWrapper aspect='labial' title='Labial' />
+              <ToothWrapper aspect='buccal' title='Buccal' />
             </TabPanel>
             <TabPanel>
               <ToothWrapper aspect='lingual' title='Lingual' />
@@ -43,10 +33,10 @@ export function Main () {
               <ToothWrapper aspect='mesial' title='Mesial' />
             </TabPanel>
             <TabPanel>
-              <ToothWrapper aspect='destial' title='Destial' />
+              <ToothWrapper aspect='distal' title='Destial' />
             </TabPanel>
             <TabPanel>
-              <ToothWrapper aspect='top' title='Top View' />
+              <ToothWrapper aspect='top_view' title='Top View' />
             </TabPanel>
           </TabPanels>
         </Tabs>
@@ -54,176 +44,3 @@ export function Main () {
     </Center>
   )
 }
-
-// class Main extends Component {
-//   constructor (props) {
-//     super(props)
-//     this.fileInput = React.createRef()
-//   }
-
-//   state = {
-//     aspect: 'Labial',
-//     type: 'type 1'
-//   }
-
-//   componentDidUpdate () {
-//     //this.props.delete_current(false);
-//   }
-
-//   handleChange = event => {
-//     this.setState({ [event.target.name]: event.target.value })
-//   }
-
-//   handleSubmit = event => {
-//     event.preventDefault()
-//     const { aspect, type } = this.state
-//     this.props.upload({
-//       aspect,
-//       type,
-//       image: this.fileInput.current.files[0]
-//     })
-//   }
-
-//   render () {
-//     let body = <div></div>
-
-//     if (this.props.isLoading) {
-//       body = (
-//         <div className='card-body mt-5 text-center'>
-//           <h6 className='h6'>Loading</h6>
-//           <div className='spinner-border text-muted' role='status'>
-//             <span className='visually-hidden'>Loading...</span>
-//           </div>
-//         </div>
-//       )
-//     } else if (this.props.assessment) {
-//       const notes = this.props.assessment.notes.map((note, id) => (
-//         <li key={id} className='list-group-item'>
-//           {note.note}
-//         </li>
-//       ))
-//       body = (
-//         <Fragment>
-//           <img
-//             className='img-fluid'
-//             src={this.props.assessment.processed_image}
-//             style={{ maxHeight: '1000px', width: '100%' }}
-//           ></img>
-//           <div className='card-body'>
-//             <ul className='list-group list-group-flush'>{notes}</ul>
-
-//             <button
-//               type='button'
-//               className='btn btn-primary'
-//               onClick={() => this.props.delete_current(true)}
-//             >
-//               ReSubmit Another
-//             </button>
-
-//             <a
-//               className='btn btn-primary ms-1'
-//               href={`engine/api/assessments/${this.props.assessment.id}/report/`}
-//             >
-//               Save
-//             </a>
-//           </div>
-//         </Fragment>
-//       )
-//     } else {
-//       body = (
-//         <div className='card-body'>
-//           <form
-//             className='row justify-content-center'
-//             encType='multipart/form-data'
-//             onSubmit={this.handleSubmit}
-//           >
-//             <div className='mb-3 col-xs-12 col-md-6'>
-//               <label className='form-label' htmlFor='type'>
-//                 Photo Type
-//               </label>
-//               <select
-//                 className='form-select'
-//                 name='type'
-//                 value={this.state.type}
-//                 onChange={this.handleChange}
-//               >
-//                 <option value='type 1'>type 1</option>
-//                 <option value='Others'>Others</option>
-//               </select>
-//             </div>
-
-//             <div className='w-100' />
-
-//             <div className='mb-3 col-xs-12 col-md-6'>
-//               <label className='form-label' htmlFor='aspect'>
-//                 Photo Aspect
-//               </label>
-
-//               <select
-//                 className='form-select'
-//                 name='aspect'
-//                 value={this.state.aspect}
-//                 onChange={this.handleChange}
-//                 required
-//               >
-//                 <option value='Labial'>Labial</option>
-//                 <option value='Lingual'>Lingual</option>
-//                 <option value='Mesial'>Mesial</option>
-//                 <option value='Destial'>Destial</option>
-//                 <option value='top view'>top view</option>
-//               </select>
-//             </div>
-
-//             <div className='w-100' />
-
-//             <div className='mb-3 col-xs-12 col-md-6'>
-//               <label htmlFor='file' className='form-label'>
-//                 Tooth Photo
-//               </label>
-//               <input
-//                 className='form-control'
-//                 type='file'
-//                 name='file'
-//                 ref={this.fileInput}
-//                 required
-//               />
-//             </div>
-
-//             <div className='w-100'></div>
-
-//             <button
-//               type='submit'
-//               className='btn btn-primary btn-block mb-4 col-xs-8 col-sm-6 col-md-2'
-//             >
-//               Submit
-//             </button>
-//           </form>
-//         </div>
-//       )
-//     }
-
-//     return (
-//       <div className='container'>
-//         <div className='row justify-content-center mt-5'>
-//           <div className='col-xs-12 col-md-6'>
-//             <div className='card h-100' style={{ maxHeight: '8rm' }}>
-//               <div className='card-header'>
-//                 <h4 className='h4'>Tooth Picture</h4>
-//               </div>
-//               {body}
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     )
-//   }
-// }
-
-// const mapStateToProps = state => ({
-//   isLoading: state.engine.isLoading,
-//   assessment: state.engine.assessment
-// })
-
-// export default connect(mapStateToProps, { upload, delete_current, download })(
-//   Main
-// )

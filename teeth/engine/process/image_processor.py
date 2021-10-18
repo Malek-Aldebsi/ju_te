@@ -746,14 +746,15 @@ def lingual(img):
 
 
 def top_view(img):
-    perfect = cv2.imread(os.path.join(settings.STATIC_ROOT, "engine/top_view-perfect.jpeg"), cv2.IMREAD_UNCHANGED)
+    perfect = cv2.imread(os.path.join(settings.STATIC_ROOT, "engine/top_view-perfect.jpg"), cv2.IMREAD_UNCHANGED)
     org = img
-    gcnt = find_rubber(img); #find the ballon(green)
+    gcnt,mask_inverse = find_rubber(img); #find the ballon(green)
     extLeft_base = (gcnt[gcnt[:, :, 0].argmin()][0])
     extRight_base = (gcnt[gcnt[:, :, 0].argmax()][0])
     pix_for_mm = (extRight_base[0]-extLeft_base[0])/40
     gray_tv = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     ret, thresh_tv = cv2.threshold(gray_tv, 60, 255, 0)
+    cv2.bitwise_and(thresh_tv , thresh_tv , mask = mask_inverse)
     thresh_tv = cv2.erode(thresh_tv, kernel, iterations=1)
     tcontours, hierarchy = cv2.findContours(thresh_tv, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     area = 0
@@ -804,7 +805,3 @@ def top_view(img):
     arrayofString.append(a2)
     arrayofString.append(a3)
     return arrayofString, org
-
-
-
-

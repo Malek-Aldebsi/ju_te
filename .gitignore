@@ -5,5 +5,4 @@ teeth/media
 *.pyc
 teeth/teeth/__pycache__
 teeth/db.sqlite3
-teeth/media
 static_files

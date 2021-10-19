@@ -15,8 +15,8 @@ class Assessment(models.Model):
     )
 
     IMAGE_TYPE= [
-        ("type 1", "type 1"),
-        ("Others", "Others"),
+        ("mandipular", "mandipular"),
+        ("central", "central"),
     ]
 
     image_type = models.CharField(

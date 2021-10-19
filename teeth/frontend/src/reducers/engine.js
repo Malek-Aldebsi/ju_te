@@ -7,31 +7,31 @@ const initialState = {
     errors: null,
     isLoading: false,
     assessment: null,
-    data: { type: 'type 1', image: null }
+    data: { type: 'mandipular', image: null }
   },
   lingual: {
     errors: null,
     isLoading: false,
     assessment: null,
-    data: { type: 'type 1', image: null }
+    data: { type: 'mandipular', image: null }
   },
   mesial: {
     errors: null,
     isLoading: false,
     assessment: null,
-    data: { type: 'type 1', image: null }
+    data: { type: 'mandipular', image: null }
   },
   distal: {
     errors: null,
     isLoading: false,
     assessment: null,
-    data: { type: 'type 1', image: null }
+    data: { type: 'mandipular', image: null }
   },
   top_view: {
     errors: null,
     isLoading: false,
     assessment: null,
-    data: { type: 'type 1', image: null }
+    data: { type: 'mandipular', image: null }
   }
 }
 
@@ -76,7 +76,7 @@ export const uploadImage = createAsyncThunk(
       )
       return { aspect, assessment: dataResp.data }
     } catch (err) {
-      console.log('error happend while uploading the image', err)
+      console.log(err)
       throw err
     }
   }

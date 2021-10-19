@@ -13,12 +13,12 @@ import { Tabs, TabList, Tab, TabPanels, TabPanel } from '@chakra-ui/tabs'
 
 const typeOptions = [
   {
-    label: 'type 1',
-    value: 'type 1'
+    label: 'Mandipular',
+    value: 'mandipular'
   },
   {
-    label: 'Others',
-    value: 'Others'
+    label: 'Central',
+    value: 'central'
   }
 ]
 
@@ -34,9 +34,9 @@ export function Form ({ aspect, title }) {
   }
 
   return (
-    <>
-      <FormControl isRequired mb={3}>
-        <FormLabel htmlFor='type'>Image Type</FormLabel>
+    <Box flex={true} h='100%' flexDirection='column'>
+      <FormControl isRequired mb={6}>
+        <FormLabel htmlFor='type'>Tooth Name</FormLabel>
         <Select
           value={aspectData.type}
           onChange={e =>
@@ -53,7 +53,7 @@ export function Form ({ aspect, title }) {
         </Select>
       </FormControl>
 
-      <FormControl isRequired mb={3}>
+      <FormControl isRequired mb={12}>
         <FormLabel htmlFor='image'>Upload Image</FormLabel>
         <Input
           type='file'
@@ -87,9 +87,9 @@ export function Form ({ aspect, title }) {
           </InputRightElement>
         </InputGroup>
       </FormControl>
-      <Button colorScheme='blue' onClick={submit}>
+      <Button colorScheme='blue' mb={200} onClick={submit}>
         Submit
       </Button>
-    </>
+    </Box>
   )
 }

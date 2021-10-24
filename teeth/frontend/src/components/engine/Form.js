@@ -87,7 +87,7 @@ export function Form ({ aspect, title }) {
           </InputRightElement>
         </InputGroup>
       </FormControl>
-      <Button colorScheme='blue' mb={200} onClick={submit}>
+      <Button colorScheme='blue' onClick={submit}>
         Submit
       </Button>
     </Box>

@@ -26,6 +26,7 @@ class Assessment(models.Model):
 
     original_image = models.ImageField(upload_to="original")
     processed_image = models.ImageField(upload_to="processed", blank=True)
+    shape_match_image = models.ImageField(upload_to="shape_match", blank=True)
     submitted_at = models.DateTimeField(auto_now_add=True)
 
 

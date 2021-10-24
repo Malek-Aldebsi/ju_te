@@ -5,16 +5,17 @@ import { Provider } from 'react-redux'
 import { store } from '../store'
 import { ChakraProvider } from '@chakra-ui/react'
 import { theme } from '../theme'
+import { Flex } from '@chakra-ui/layout'
 
 class App extends Component {
   render () {
     return (
       <Provider store={store}>
         <ChakraProvider theme={theme}>
-          <Fragment>
+          <Flex w='100%' h='100%' flexDirection='column'>
             <Header />
             <Main />
-          </Fragment>
+          </Flex>
         </ChakraProvider>
       </Provider>
     )

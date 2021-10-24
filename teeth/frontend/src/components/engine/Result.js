@@ -14,9 +14,18 @@ export function Result ({ aspect }) {
     <Box w='100%' h='100%'>
       <Flex w='100%' direction={['column', 'row', 'row']}>
         <Center mb={6}>
-          <Image src={assessment.processed_image} maxH='600px' w='auto' />
+          <Image
+            src={assessment.processed_image}
+            maxH='600px'
+            w={['100%', '50%', '40%']}
+          />
         </Center>
-        <VStack mb={6} maxH='600px' overflow='scroll'>
+        <VStack
+          mb={6}
+          maxH='600px'
+          w={['100%', '50%', '60%']}
+          overflow='scroll'
+        >
           {assessment.notes.map(({ note }, idx) => (
             <Box
               w='100%'

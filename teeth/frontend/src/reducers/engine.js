@@ -7,31 +7,31 @@ const initialState = {
     errors: null,
     isLoading: false,
     assessment: null,
-    data: { type: 'mandipular', image: null }
+    data: { type: 'permandipular', image: null }
   },
   lingual: {
     errors: null,
     isLoading: false,
     assessment: null,
-    data: { type: 'mandipular', image: null }
+    data: { type: 'permandipular', image: null }
   },
   mesial: {
     errors: null,
     isLoading: false,
     assessment: null,
-    data: { type: 'mandipular', image: null }
+    data: { type: 'permandipular', image: null }
   },
   distal: {
     errors: null,
     isLoading: false,
     assessment: null,
-    data: { type: 'mandipular', image: null }
+    data: { type: 'permandipular', image: null }
   },
   top_view: {
     errors: null,
     isLoading: false,
     assessment: null,
-    data: { type: 'mandipular', image: null }
+    data: { type: 'permandipular', image: null }
   }
 }
 

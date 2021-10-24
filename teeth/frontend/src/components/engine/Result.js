@@ -13,12 +13,8 @@ export function Result ({ aspect }) {
   return (
     <Box w='100%' h='100%'>
       <Flex w='100%' direction={['column', 'row', 'row']}>
-        <Center mb={6}>
-          <Image
-            src={assessment.processed_image}
-            maxH='600px'
-            w={['100%', '50%', '40%']}
-          />
+        <Center mb={6} w={['100%', '50%', '40%']}>
+          <Image src={assessment.processed_image} maxH='600px' w='auto' />
         </Center>
         <VStack
           mb={6}

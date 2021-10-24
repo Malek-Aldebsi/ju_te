@@ -40,8 +40,9 @@ class AssessmentViewSet(viewsets.ModelViewSet):
 
         #process image using cv2
         image_aspect = self.request.data['image_aspect']
+        image_type = self.request.data['image_type']
 
-        notes, image = processors[image_aspect](image)
+        notes, image = processors[image_aspect](image, image_type)
         _ , buf = cv2.imencode(extention, image)
             
         #save image in the processed_image field

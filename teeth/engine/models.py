@@ -15,7 +15,7 @@ class Assessment(models.Model):
     )
 
     IMAGE_TYPE= [
-        ("mandipular", "mandipular"),
+        ("premandibular", "premandibular"),
         ("central", "central"),
     ]
 

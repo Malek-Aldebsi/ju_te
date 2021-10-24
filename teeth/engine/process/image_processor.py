@@ -5,6 +5,29 @@ import os
 
 kernel = np.ones((5, 5), np.uint8)
 
+PATHS = {
+    "buccal": {
+        "premandibular": os.path.join(settings.STATIC_ROOT, f"engine/buccal-perfect-premandibular.jpg"),
+        "central": os.path.join(settings.STATIC_ROOT, f"engine/buccal-perfect-central.jpeg")
+    },
+    "distal": {
+        "premandibular": os.path.join(settings.STATIC_ROOT, f"engine/distal-perfect-premandibular.jpg"),
+        "central": os.path.join(settings.STATIC_ROOT, f"engine/distal-perfect-central.jpeg")
+    },
+    "mesial": {
+        "premandibular": os.path.join(settings.STATIC_ROOT, f"engine/mesial-perfect-premandibular.jpg"),
+        "central": os.path.join(settings.STATIC_ROOT, f"engine/mesial-perfect-central.jpeg")
+    },
+    "lingual": {
+        "premandibular": os.path.join(settings.STATIC_ROOT, f"engine/lingual-perfect-premandibular.jpeg"),
+        "central": os.path.join(settings.STATIC_ROOT, f"engine/lingual-perfect-central.jpeg")
+    },
+    "top_view": {
+        "premandibular": os.path.join(settings.STATIC_ROOT, f"engine/top_view-perfect-premandibular.jpg"),
+        "central": os.path.join(settings.STATIC_ROOT, f"engine/top_view-perfect-central.jpeg")
+    }
+}
+
 
 def shapeMatch(img1 , img2 , cntImg2):
     img1 = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
@@ -101,9 +124,9 @@ def find_red(img):
 
     
 
-def buccal(img):
+def buccal(img, type):
     org = img
-    perfect = cv2.imread(os.path.join(settings.STATIC_ROOT, "engine/buccal-perfect.jpg"), cv2.IMREAD_UNCHANGED)
+    perfect = cv2.imread(PATHS["buccal"][type], cv2.IMREAD_UNCHANGED)
     gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     ret, thresh_img = cv2.threshold(gray_img, 40, 255, 0)
     gcnt, mask = find_rubber(img)
@@ -211,9 +234,9 @@ def buccal(img):
 
 
 
-def distal(img):
+def distal(img, type):
     org = img
-    perfect = cv2.imread(os.path.join(settings.STATIC_ROOT, "engine/distal-perfect.jpeg"), cv2.IMREAD_UNCHANGED)
+    perfect = cv2.imread(PATHS["distal"][type], cv2.IMREAD_UNCHANGED)
     gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     ret, thresh_img = cv2.threshold(gray_img, 40, 255, 0)
     gcnt, mask = find_rubber(img)
@@ -334,9 +357,9 @@ def distal(img):
 
 
 
-def mesial(img):
+def mesial(img, type):
     org = img
-    perfect = cv2.imread(os.path.join(settings.STATIC_ROOT, "engine/mesial-perfect.jpg"), cv2.IMREAD_UNCHANGED)
+    perfect = cv2.imread(PATHS["mesial"][type], cv2.IMREAD_UNCHANGED)
     gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     ret, thresh_img = cv2.threshold(gray_img, 40, 255, 0)
     gcnt, mask = find_rubber(img)
@@ -458,9 +481,9 @@ def mesial(img):
     return arrayofString, org#, (rubber_bootom[1] - extTop_tooth[1]) / pix_for_mm
 
 
-def lingual(img):
+def lingual(img, type):
     org = img
-    perfect = cv2.imread(os.path.join(settings.STATIC_ROOT, "engine/lingual-perfect.jpg"), cv2.IMREAD_UNCHANGED)
+    perfect = cv2.imread(PATHS["lingual"][type], cv2.IMREAD_UNCHANGED)
     gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     ret, thresh_img = cv2.threshold(gray_img, 40, 255, 0)
     gcnt, mask = find_rubber(img)
@@ -574,9 +597,9 @@ def lingual(img):
 
 
 
-def top_view(img):
+def top_view(img, type):
     org = img
-    perfect = cv2.imread(os.path.join(settings.STATIC_ROOT, "engine/top_view-perfect.jpg"), cv2.IMREAD_UNCHANGED)
+    perfect = cv2.imread(PATHS["top_view"][type], cv2.IMREAD_UNCHANGED)
     gray_tv = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     ret, thresh_tv = cv2.threshold(gray_tv, 80, 255, 0)
     thresh_tv = cv2.erode(thresh_tv, kernel, iterations=1)

@@ -13,8 +13,8 @@ import { Tabs, TabList, Tab, TabPanels, TabPanel } from '@chakra-ui/tabs'
 
 const typeOptions = [
   {
-    label: 'Mandipular',
-    value: 'mandipular'
+    label: 'Premandibular',
+    value: 'premandibular'
   },
   {
     label: 'Central',

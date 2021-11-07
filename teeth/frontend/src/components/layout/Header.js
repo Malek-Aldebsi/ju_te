@@ -18,7 +18,7 @@ export function Header (props) {
       <HStack h='full' align='center' spacing={6} justify='left'>
         <Avatar src={'static/frontend/img/logo.jpg'} />
         <Heading size='lg' letterSpacing='tighter' as='h1'>
-          Teeth Project
+          Tooth Vision
         </Heading>
       </HStack>
     </Flex>

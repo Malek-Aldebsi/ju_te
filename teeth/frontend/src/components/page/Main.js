@@ -21,7 +21,7 @@ export function Main () {
       >
         <Tabs isFitted>
           <TabList>
-            <Tab>Buccal</Tab>
+            <Tab>Buccal/Facial</Tab>
             <Tab>Lingual</Tab>
             <Tab>Mesial</Tab>
             <Tab>Distal</Tab>

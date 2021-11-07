@@ -13,9 +13,14 @@ export function Result ({ aspect }) {
   return (
     <Box w='100%' h='100%'>
       <Flex w='100%' direction={['column', 'row', 'row']}>
-        <Center mb={6} w={['100%', '50%', '40%']}>
-          <Image src={assessment.processed_image} maxH='600px' w='auto' />
-        </Center>
+        <HStack w={['100%', '50%', '40%']} mb={6}>
+          <Center w='100%'>
+            <Image src={assessment.processed_image} maxH='600px' w='auto' />
+          </Center>
+          <Center w='100%'>
+            <Image src={assessment.shape_match_image} maxH='600px' w='auto' />
+          </Center>
+        </HStack>
         <VStack
           mb={6}
           maxH='600px'

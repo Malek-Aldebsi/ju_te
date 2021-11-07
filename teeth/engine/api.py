@@ -6,7 +6,11 @@ from rest_framework import status
 from rest_framework.response import Response
 from django.http import Http404
 from .serializers import AssessmentSerializer
-from .process.image_processor import buccal, distal, mesial, lingual, top_view
+from .process.buccal import buccal
+from .process.distal import distal
+from .process.mesial import mesial
+from .process.lingual import lingual
+from .process.top_view import top_view
 from rest_framework.decorators import action
 from fpdf import FPDF
 import numpy as np
@@ -33,7 +37,7 @@ class AssessmentViewSet(viewsets.ModelViewSet):
         # convert the image to a NumPy array and then read it into
 		# OpenCV format
         original = self.request.FILES['original_image']
-        name, extention = os.path.splitext(original.name)
+        _, extention = os.path.splitext(original.name)
 
         image = np.asarray(bytearray(original.read()), dtype='uint8')
         image = cv2.imdecode(image, cv2.IMREAD_UNCHANGED)
@@ -42,13 +46,16 @@ class AssessmentViewSet(viewsets.ModelViewSet):
         image_aspect = self.request.data['image_aspect']
         image_type = self.request.data['image_type']
 
-        notes, image = processors[image_aspect](image, image_type)
-        _ , buf = cv2.imencode(extention, image)
+        notes, processed_image, shape_image = processors[image_aspect](image, image_type)
+        _ , processed_buf = cv2.imencode(extention, processed_image)
+        _, shape_buf = cv2.imencode(extention, shape_image)
             
         #save image in the processed_image field
-        content = ContentFile(buf.tobytes())        
+        processed_content = ContentFile(processed_buf.tobytes())   
+        shape_content = ContentFile(shape_buf.tobytes())     
         instance = serializer.save()
-        instance.processed_image.save(original.name, content)
+        instance.processed_image.save(original.name, processed_content)
+        instance.shape_match_image.save(original.name, shape_content)
         
         #create and save instances saved by 
         for note in notes:
@@ -79,7 +86,6 @@ class AssessmentViewSet(viewsets.ModelViewSet):
         notes = [note.note for note in Note.objects.filter(assessment=instance)]
         name, extention = os.path.splitext(instance.original_image.name)
         
-        #
         pdf = FPDF()
         pdf.set_title(name)
         pdf.add_page()

@@ -3,7 +3,7 @@ import numpy as np
 from .utils import *
 
 def distal(img, type):
-    perfect = PERFECTS["distal", type]
+    perfect = PERFECTS["distal"][type]
     org = img
     gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     ret, thresh_img = cv2.threshold(gray_img, 40, 255, 0)

@@ -13,12 +13,16 @@ import { Tabs, TabList, Tab, TabPanels, TabPanel } from '@chakra-ui/tabs'
 import { Result } from './Result'
 import { Loading } from './Loading'
 import { Form } from './Form'
+import { Error } from './Error'
 
 export function ToothWrapper ({ aspect, title }) {
   const isLoading = useSelector(({ engine }) => engine[aspect].isLoading)
   const assessment = useSelector(({ engine }) => engine[aspect].assessment)
+  const error = useSelector(({ engine }) => engine[aspect].error)
 
-  if (isLoading) {
+  if (error) {
+    return <Error message={error?.message} status={error.status} />
+  } else if (isLoading) {
     return <Loading />
   } else if (assessment) {
     return <Result aspect={aspect} />

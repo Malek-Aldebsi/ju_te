@@ -3,7 +3,7 @@ import numpy as np
 from .utils import *
 
 def top_view(img, type):
-    perfect = PERFECTS["top_view", type]
+    perfect = PERFECTS["top_view"][type]
     org = img
     gray_tv = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     ret, thresh_tv = cv2.threshold(gray_tv, 80, 255, 0)

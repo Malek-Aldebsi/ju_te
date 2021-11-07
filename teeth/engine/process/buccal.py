@@ -4,7 +4,7 @@ from .utils import *
 
 
 def buccal(img, type):
-    perfect = PERFECTS["buccal", type]
+    perfect = PERFECTS["buccal"][type]
     org = img
     gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     ret, thresh_img = cv2.threshold(gray_img, 70, 255, 0)

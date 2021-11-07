@@ -4,31 +4,31 @@ import axios from 'axios'
 
 const initialState = {
   buccal: {
-    errors: null,
+    error: null,
     isLoading: false,
     assessment: null,
     data: { type: 'permandipular', image: null }
   },
   lingual: {
-    errors: null,
+    error: null,
     isLoading: false,
     assessment: null,
     data: { type: 'permandipular', image: null }
   },
   mesial: {
-    errors: null,
+    error: null,
     isLoading: false,
     assessment: null,
     data: { type: 'permandipular', image: null }
   },
   distal: {
-    errors: null,
+    error: null,
     isLoading: false,
     assessment: null,
     data: { type: 'permandipular', image: null }
   },
   top_view: {
-    errors: null,
+    error: null,
     isLoading: false,
     assessment: null,
     data: { type: 'permandipular', image: null }
@@ -75,9 +75,10 @@ export const uploadImage = createAsyncThunk(
         `engine/api/assessments/${resp.data.id}/`
       )
       return { aspect, assessment: dataResp.data }
-    } catch (err) {
-      console.log(err)
-      throw err
+    } catch (error) {
+      console.log(error)
+      reduxAPI.rejectWithValue({ error, aspect })
+      return { error, aspect }
     }
   }
 )
@@ -89,7 +90,7 @@ export const engineSlice = createSlice({
     uploadLoading: (state, action) => {
       const aspect = action.payload
       state[aspect].isLoading = true
-      state[aspect].errors = null
+      state[aspect].error = null
       state[aspect].assessment = null
     },
 
@@ -101,7 +102,7 @@ export const engineSlice = createSlice({
     deleteCurrentAssessment: (state, action) => {
       const aspect = action.payload
       state[aspect].isLoading = false
-      state[aspect].errors = null
+      state[aspect].error = null
       state[aspect].assessment = null
     }
   },
@@ -109,51 +110,15 @@ export const engineSlice = createSlice({
     builder.addCase(uploadImage.fulfilled, (state, action) => {
       const { aspect, assessment } = action.payload
       state[aspect].isLoading = false
-      state[aspect].errors = null
+      state[aspect].error = null
       state[aspect].assessment = assessment
+    })
+    builder.addCase(uploadImage.rejected, (state, action) => {
+      const { error, aspect } = action.payload
+      state[aspect].error = error
     })
   }
 })
 
 export default engineSlice.reducer
 export const actions = engineSlice.actions
-
-// export default function (state = initialState, action) {
-//   switch (action.type) {
-//     case UPLOAD_LOADING:
-//       return {
-//         ...state,
-//         isLoading: true,
-//         errors: null,
-//         assessment: null
-//       }
-
-//     case UPLOAD_SUCCESS:
-//       console.log(JSON.stringify(action.payload))
-//       return {
-//         ...state,
-//         assessment: action.payload,
-//         isLoading: false,
-//         errors: null
-//       }
-
-//     case DELETE_CURRENT:
-//       if (action.payload) {
-//         return {
-//           ...state,
-//           isLoading: false,
-//           assessment: null,
-//           errors: null
-//         }
-//       } else {
-//         return {
-//           ...state,
-//           isLoading: false,
-//           errors: null
-//         }
-//       }
-
-//     default:
-//       return state
-//   }
-// }

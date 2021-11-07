@@ -1,33 +1,5 @@
 import cv2
 import numpy as np
-from django.conf import settings
-import os
-
-kernel = np.ones((5, 5), np.uint8)
-
-PATHS = {
-    "buccal": {
-        "premandibular": os.path.join(settings.STATIC_ROOT, f"engine/buccal-perfect-premandibular.jpg"),
-        "central": os.path.join(settings.STATIC_ROOT, f"engine/buccal-perfect-central.jpeg")
-    },
-    "distal": {
-        "premandibular": os.path.join(settings.STATIC_ROOT, f"engine/distal-perfect-premandibular.jpg"),
-        "central": os.path.join(settings.STATIC_ROOT, f"engine/distal-perfect-central.jpeg")
-    },
-    "mesial": {
-        "premandibular": os.path.join(settings.STATIC_ROOT, f"engine/mesial-perfect-premandibular.jpg"),
-        "central": os.path.join(settings.STATIC_ROOT, f"engine/mesial-perfect-central.jpeg")
-    },
-    "lingual": {
-        "premandibular": os.path.join(settings.STATIC_ROOT, f"engine/lingual-perfect-premandibular.jpeg"),
-        "central": os.path.join(settings.STATIC_ROOT, f"engine/lingual-perfect-central.jpeg")
-    },
-    "top_view": {
-        "premandibular": os.path.join(settings.STATIC_ROOT, f"engine/top_view-perfect-premandibular.jpg"),
-        "central": os.path.join(settings.STATIC_ROOT, f"engine/top_view-perfect-central.jpeg")
-    }
-}
-
 
 def shapeMatch(img1 , img2 , cntImg2):
     img1 = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)

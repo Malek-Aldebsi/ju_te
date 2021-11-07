@@ -12,6 +12,7 @@ from .process.mesial import mesial
 from .process.lingual import lingual
 from .process.top_view import top_view
 from rest_framework.decorators import action
+from rest_framework.exceptions import APIException
 from fpdf import FPDF
 import numpy as np
 from django.http import HttpResponse
@@ -34,6 +35,7 @@ class AssessmentViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.AllowAny]
     
     def perform_create(self, serializer):
+      
         # convert the image to a NumPy array and then read it into
 		# OpenCV format
         original = self.request.FILES['original_image']
@@ -46,10 +48,12 @@ class AssessmentViewSet(viewsets.ModelViewSet):
         image_aspect = self.request.data['image_aspect']
         image_type = self.request.data['image_type']
 
-        notes, processed_image, shape_image = processors[image_aspect](image, image_type)
-        _ , processed_buf = cv2.imencode(extention, processed_image)
-        _, shape_buf = cv2.imencode(extention, shape_image)
-            
+        try:
+            notes, processed_image, shape_image = processors[image_aspect](image, image_type)
+            _ , processed_buf = cv2.imencode(extention, processed_image)
+            _, shape_buf = cv2.imencode(extention, shape_image)
+        except Exception as exp:
+            raise APIException(exp)
         #save image in the processed_image field
         processed_content = ContentFile(processed_buf.tobytes())   
         shape_content = ContentFile(shape_buf.tobytes())     
@@ -60,6 +64,7 @@ class AssessmentViewSet(viewsets.ModelViewSet):
         #create and save instances saved by 
         for note in notes:
             Note.objects.create(note=note, assessment=instance)
+        
 
     def retrieve(self, request, *args, **kwargs):
         try:

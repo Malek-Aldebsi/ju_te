@@ -20,6 +20,7 @@ export function ToothWrapper ({ aspect, title }) {
   const assessment = useSelector(({ engine }) => engine[aspect].assessment)
   const error = useSelector(({ engine }) => engine[aspect].error)
 
+  console.log('error of wrapper', error)
   if (error) {
     return <Error message={error?.message} status={error.status} />
   } else if (isLoading) {

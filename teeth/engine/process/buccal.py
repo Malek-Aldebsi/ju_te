@@ -114,4 +114,4 @@ def buccal(img, type):
     dim = (width, height)
     img = cv2.resize(img, dim, interpolation=cv2.INTER_AREA)
     org = cv2.resize(org, dim, interpolation=cv2.INTER_AREA)
-    return arrayofString, org,shape_img,(rubber_bootom[1] - extTop_tooth[1]) / pix_for_mm
+    return arrayofString, org,shape_img#,(rubber_bootom[1] - extTop_tooth[1]) / pix_for_mm

@@ -1,3 +1,4 @@
+import React from 'react'
 import { Text, Box, Divider } from '@chakra-ui/layout'
 
 export function Error ({ message, status }) {
@@ -7,8 +8,8 @@ export function Error ({ message, status }) {
         Something Went Wrong
       </Text>
       <Text>{`Status: ${status}`}</Text>
-      <Divider orientation='horizontal' w='100%' />
-      <Text as='p' fontSize='lg'>
+      <Divider orientation='horizontal' />
+      <Text as='p' overflowWrap='break-word' h='100%' fontSize='lg'>
         {message}
       </Text>
     </Box>

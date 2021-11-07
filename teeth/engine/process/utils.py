@@ -63,7 +63,7 @@ def find_rubber(img):
     get, bthresh = cv2.threshold(blue, 70, 255, 0)
     bthresh = cv2.dilate(bthresh, kernel, iterations=1)
     bcontours, hierarchy = cv2.findContours(bthresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-    area = 0
+    area = gcnt = 0
     for c in bcontours:
         if cv2.contourArea(c) > area:
             gcnt = c

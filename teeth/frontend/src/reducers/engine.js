@@ -7,31 +7,31 @@ const initialState = {
     error: null,
     isLoading: false,
     assessment: null,
-    data: { type: 'permandipular', image: null }
+    data: { type: 'premandibular', image: null }
   },
   lingual: {
     error: null,
     isLoading: false,
     assessment: null,
-    data: { type: 'permandipular', image: null }
+    data: { type: 'premandibular', image: null }
   },
   mesial: {
     error: null,
     isLoading: false,
     assessment: null,
-    data: { type: 'permandipular', image: null }
+    data: { type: 'premandibular', image: null }
   },
   distal: {
     error: null,
     isLoading: false,
     assessment: null,
-    data: { type: 'permandipular', image: null }
+    data: { type: 'premandibular', image: null }
   },
   top_view: {
     error: null,
     isLoading: false,
     assessment: null,
-    data: { type: 'permandipular', image: null }
+    data: { type: 'premandibular', image: null }
   }
 }
 
@@ -76,9 +76,7 @@ export const uploadImage = createAsyncThunk(
       )
       return { aspect, assessment: dataResp.data }
     } catch (error) {
-      console.log(error)
-      reduxAPI.rejectWithValue({ error, aspect })
-      return { error, aspect }
+      return reduxAPI.rejectWithValue({ error: error.response.data, aspect })
     }
   }
 )
@@ -87,6 +85,7 @@ export const engineSlice = createSlice({
   name: 'engine',
   initialState,
   reducers: {
+    hadocen: state => {},
     uploadLoading: (state, action) => {
       const aspect = action.payload
       state[aspect].isLoading = true

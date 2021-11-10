@@ -6,12 +6,14 @@ def lingual(img, type):
     perfect = PERFECTS["lingual"][type]
     org = img
     gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    ret, thresh_img = cv2.threshold(gray_img, 40, 255, 0)
+    ret, thresh_img = cv2.threshold(gray_img, 70, 255, 0)
     gcnt, mask = find_rubber(img)
     thresh_img = cv2.bitwise_and(thresh_img, thresh_img, mask=mask)
     thresh_img = cv2.erode(thresh_img, kernel, iterations=1)
-    contours, hierarchy = cv2.findContours(thresh_img, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     rubber_bootom = tuple(gcnt[gcnt[:, :, 1].argmax()][0])
+    rubber_top = tuple(gcnt[gcnt[:, :, 1].argmin()][0])
+    cv2.line(thresh_img, (-100000000, rubber_top[1]), (100000000, rubber_top[1]), (0, 255, 0), thickness=5)
+    contours, hierarchy = cv2.findContours(thresh_img, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     cnt_base = find_base(contours, rubber_bootom)
     cnt_tooth = find_crown(contours, rubber_bootom)
     extLeft_base = (cnt_base[cnt_base[:, :, 0].argmin()][0])

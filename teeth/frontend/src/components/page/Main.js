@@ -29,7 +29,7 @@ export function Main () {
           </TabList>
           <TabPanels>
             <TabPanel>
-              <ToothWrapper aspect='buccal' title='Buccal' />
+              <ToothWrapper aspect='buccal' title='Buccal/Facial' />
             </TabPanel>
             <TabPanel>
               <ToothWrapper aspect='lingual' title='Lingual' />

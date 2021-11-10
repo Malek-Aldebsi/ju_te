@@ -7,24 +7,24 @@ kernel = np.ones((5, 5), np.uint8)
 
 PERFECTS = {
     "buccal": {
-        "premandibular": cv2.imread(os.path.join(settings.STATIC_ROOT, f"engine/buccal-perfect-premandibular.jpg"), cv2.IMREAD_UNCHANGED),
-        "central": cv2.imread(os.path.join(settings.STATIC_ROOT, f"engine/buccal-perfect-central.jpeg"), cv2.IMREAD_UNCHANGED)
+        "premandibular": cv2.imread(os.path.join(settings.STATIC_ROOT, "engine/buccal-perfect-premandibular.jpg"), cv2.IMREAD_UNCHANGED),
+        "central": cv2.imread(os.path.join(settings.STATIC_ROOT, "engine/buccal-perfect-central.jpeg"), cv2.IMREAD_UNCHANGED)
     },
     "distal": {
-        "premandibular": cv2.imread(os.path.join(settings.STATIC_ROOT, f"engine/distal-perfect-premandibular.jpg"), cv2.IMREAD_UNCHANGED),
-        "central": cv2.imread(os.path.join(settings.STATIC_ROOT, f"engine/distal-perfect-central.jpeg"), cv2.IMREAD_UNCHANGED)
+        "premandibular": cv2.imread(os.path.join(settings.STATIC_ROOT, "engine/distal-perfect-premandibular.jpg"), cv2.IMREAD_UNCHANGED),
+        "central": cv2.imread(os.path.join(settings.STATIC_ROOT, "engine/distal-perfect-central.jpeg"), cv2.IMREAD_UNCHANGED)
     },
     "mesial": {
-        "premandibular": cv2.imread(os.path.join(settings.STATIC_ROOT, f"engine/mesial-perfect-premandibular.jpg"), cv2.IMREAD_UNCHANGED),
-        "central":  cv2.imread(os.path.join(settings.STATIC_ROOT, f"engine/mesial-perfect-central.jpeg"), cv2.IMREAD_UNCHANGED)
+        "premandibular": cv2.imread(os.path.join(settings.STATIC_ROOT, "engine/mesial-perfect-premandibular.jpg"), cv2.IMREAD_UNCHANGED),
+        "central":  cv2.imread(os.path.join(settings.STATIC_ROOT, "engine/mesial-perfect-central.jpeg"), cv2.IMREAD_UNCHANGED)
     },
     "lingual": {
-        "premandibular":  cv2.imread(os.path.join(settings.STATIC_ROOT, f"engine/lingual-perfect-premandibular.jpeg"), cv2.IMREAD_UNCHANGED),
-        "central": cv2.imread(os.path.join(settings.STATIC_ROOT, f"engine/lingual-perfect-central.jpeg"), cv2.IMREAD_UNCHANGED)
+        "premandibular":  cv2.imread(os.path.join(settings.STATIC_ROOT, "engine/lingual-perfect-premandibular.jpeg"), cv2.IMREAD_UNCHANGED),
+        "central": cv2.imread(os.path.join(settings.STATIC_ROOT, "engine/lingual-perfect-central.jpeg"), cv2.IMREAD_UNCHANGED)
     },
     "top_view": {
-        "premandibular": cv2.imread(os.path.join(settings.STATIC_ROOT, f"engine/top_view-perfect-premandibular.jpg"), cv2.IMREAD_UNCHANGED),
-        "central": cv2.imread(os.path.join(settings.STATIC_ROOT, f"engine/top_view-perfect-central.jpeg"), cv2.IMREAD_UNCHANGED)
+        "premandibular": cv2.imread(os.path.join(settings.STATIC_ROOT, "engine/top_view-perfect-premandibular.jpg"), cv2.IMREAD_UNCHANGED),
+        "central": cv2.imread(os.path.join(settings.STATIC_ROOT, "engine/top_view-perfect-central.jpeg"), cv2.IMREAD_UNCHANGED)
     }
 }
 

@@ -44,11 +44,11 @@ def distal(img, type):
     cv2.putText(org, "l4", (vy, vy), cv2.FONT_HERSHEY_SIMPLEX, 1, (70, 0, 200), 2)
     cv2.line(org, (1000000, int(vy - (((14) * pix_for_mm)))), (-1000000, int(vy - ((14) * pix_for_mm))), (0, 255, 0),
              thickness=int(pix_for_mm))
-    vy = int(vy - ((11) * pix_for_mm))
+    vy = int(vy - ((14) * pix_for_mm))
     cv2.putText(org, "l3", (vy, vy), cv2.FONT_HERSHEY_SIMPLEX, 1, (70, 0, 200), 2)
     cv2.line(org, (1000000, int(vy - (((14) * pix_for_mm)))), (-1000000, int(vy - ((14) * pix_for_mm))), (0, 255, 0),
              thickness=int(pix_for_mm))
-    vy = int(vy - ((12) * pix_for_mm))
+    vy = int(vy - ((14) * pix_for_mm))
     cv2.putText(org, "l2", (vy, vy), cv2.FONT_HERSHEY_SIMPLEX, 1, (70, 0, 200), 2)
     cv2.line(org, (1000000, int(vy - (((14) * pix_for_mm)))), (-1000000, int(vy - ((14) * pix_for_mm))), (0, 255, 0),
              thickness=int(pix_for_mm))

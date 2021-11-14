@@ -113,10 +113,10 @@ def distal(img, type):
     cnt_perfect[:, :, 0] = cnt_perfect[:, :, 0] * coef_x
     cnt_perfect[:, :, 1] = cnt_perfect[:, :, 1] * coef_y
     cv2.drawContours(blank_image1, [cnt_tooth], -1, (255, 255, 255), -1)
-    cv2.drawContours(blank_image2, [cnt_perfect], -1, (255, 255, 255), -1, offset=(x_t - x_p, y_t - y_p))
+    cv2.drawContours(blank_image2, [cnt_perfect], -1, (255, 255, 255), -1, offset=(x_t, y_t))
     shape_img = np.zeros((img.shape[0], img.shape[1], 3), np.uint8)
     cv2.drawContours(shape_img, [cnt_tooth], -1, (255, 255, 255), -1)
-    cv2.drawContours(shape_img, [cnt_perfect], -1, (0, 0, 139), 10, offset=(x_t - x_p, y_t - y_p))
+    cv2.drawContours(shape_img, [cnt_perfect], -1, (0, 0, 139), 10, offset=(x_t, y_t))
     shape_match= shapeMatch(blank_image1, blank_image2,cnt_perfect)
     a10 = f"shape matching= {shape_match}"
     arrayofString.append(a10)

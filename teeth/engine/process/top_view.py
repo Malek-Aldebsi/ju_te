@@ -38,10 +38,10 @@ def top_view(img, type):
     cnt_perfect[:, :, 1] = cnt_perfect[:, :, 1] * coef_y
     x_p, y_p, w_p, h_p = cv2.boundingRect(cnt_perfect)
     cv2.drawContours(blank_image1, [tcnt], -1, (255, 255, 255), -1)
-    cv2.drawContours(blank_image2, [cnt_perfect], -1, (255, 255, 255), -1 , offset=(x_t,y_t))
+    cv2.drawContours(blank_image2, [cnt_perfect], -1, (255, 255, 255), -1 , offset=(x_t-x_p,y_t-y_p))
     blank_image = np.zeros((img.shape[0], img.shape[1], 3), np.uint8)
     cv2.drawContours(blank_image, [tcnt], -1, (255, 255, 255), -1)
-    cv2.drawContours(blank_image, [cnt_perfect], -1, (255, 255, 255), -1, offset=(x_t, y_t))
+    cv2.drawContours(blank_image, [cnt_perfect], -1, (255, 255, 255), -1, offset=(x_t-x_p, y_t-y_p))
     shape_img = np.zeros((img.shape[0], img.shape[1], 3), np.uint8)
     cv2.drawContours(shape_img, [tcnt], -1, (0, 0, 139), -1)
     cv2.drawContours(shape_img, [cnt_perfect], -1, (139, 0, 0), 10, offset=(x_t, y_t))

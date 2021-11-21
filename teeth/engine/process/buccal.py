@@ -20,7 +20,7 @@ def buccal(img, type):
     cnt_tooth = find_crown(contours, rubber_bootom)
     extLeft_base = (cnt_base[cnt_base[:, :, 0].argmin()][0])
     extRight_base = (cnt_base[cnt_base[:, :, 0].argmax()][0])
-    pix_for_mm = ((extRight_base[0] - extLeft_base[0]) / 40)
+    pix_for_mm = ((extRight_base[0] - extLeft_base[0]) / 47)
     extLeft_tooth = (cnt_tooth[cnt_tooth[:, :, 0].argmin()][0])
     extRight_tooth = (cnt_tooth[cnt_tooth[:, :, 0].argmax()][0])
     extTop_tooth = (cnt_tooth[cnt_tooth[:, :, 1].argmin()][0])

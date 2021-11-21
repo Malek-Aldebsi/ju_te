@@ -100,7 +100,7 @@ def buccal(img, type):
     coef_x = w_t / w_p
     cnt_perfect[:, :, 0] = cnt_perfect[:, :, 0] * coef_x
     cnt_perfect[:, :, 1] = cnt_perfect[:, :, 1] * coef_y
-     x_p, y_p, w_p, h_p = cv2.boundingRect(cnt_perfect)
+    x_p, y_p, w_p, h_p = cv2.boundingRect(cnt_perfect)
     cv2.drawContours(blank_image1, [cnt_tooth], -1, (255, 255, 255), -1)
     cv2.drawContours(blank_image2, [cnt_perfect], -1, (255, 255, 255), -1, offset=(x_t-x_p, y_t-y_p))
     shape_img = np.zeros((img.shape[0], img.shape[1], 3), np.uint8)

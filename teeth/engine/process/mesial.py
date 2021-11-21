@@ -18,7 +18,7 @@ def mesial(img, type):
     cnt_tooth = find_crown(contours, rubber_bootom)
     extLeft_base = (cnt_base[cnt_base[:, :, 0].argmin()][0])
     extRight_base = (cnt_base[cnt_base[:, :, 0].argmax()][0])
-    pix_for_mm = ((extRight_base[0] - extLeft_base[0]) / 40)
+    pix_for_mm = ((extRight_base[0] - extLeft_base[0]) / 35)
     hull = cv2.convexHull(cnt_tooth, returnPoints=False)
     defects = cv2.convexityDefects(cnt_tooth, hull)
     md = 0

@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'frontend',
     'engine',
     'django_cleanup.apps.CleanupConfig',
+    'gdstorage',
 ]
 
 MIDDLEWARE = [
@@ -138,3 +139,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 REST_FRAMEWORK = {
     'EXCEPTION_HANDLER': 'engine.utils.custom_handler'
 }
+
+#Google Drive Storage
+GOOGLE_DRIVE_STORAGE_JSON_KEY_FILE="/home/ammar/projects/teeth/credentials.json"

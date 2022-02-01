@@ -6,3 +6,4 @@ teeth/media
 teeth/teeth/__pycache__
 teeth/db.sqlite3
 static_files
+credentials.json

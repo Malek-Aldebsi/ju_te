@@ -1,7 +1,4 @@
 from django.db import models
-from gdstorage.storage import GoogleDriveStorage
-
-gd_storage = GoogleDriveStorage()
 
 class Assessment(models.Model):
     IMAGE_ASPECT = [
@@ -41,6 +38,3 @@ class Note(models.Model):
         return self.note
 
 
-class ErrorLog(models.Model):
-    stacktrace = models.FileField(upload_to="errlog_stacktrace", storage=gd_storage)    
-    image = models.FileField(upload_to="errlog_images", storage=gd_storage)

@@ -1,3 +1,5 @@
+from datetime import datetime
+from .google_service import Create_Service
 from .models import Assessment, ErrorLog, Note
 from rest_framework import viewsets, permissions
 from .serializers import AssessmentSerializer, NoteSerializer
@@ -16,7 +18,6 @@ from rest_framework.exceptions import APIException
 from fpdf import FPDF
 import numpy as np
 from django.http import HttpResponse
-import traceback
 import cv2
 import os
 
@@ -54,10 +55,37 @@ class AssessmentViewSet(viewsets.ModelViewSet):
             _ , processed_buf = cv2.imencode(extention, processed_image)
             _, shape_buf = cv2.imencode(extention, shape_image)
         except Exception as exp:
-            errlog = ErrorLog()
-            errlog.stacktrace.save(original.name + ".stacktrace.txt", ContentFile(''.join([s + "\n" for s in traceback.format_tb(exp.args[0].__traceback__)])))
-            errlog.stacktrace.save(original, original)
-            errlog.save()
+            from googleapiclient.http import MediaIoBaseUpload, MediaFileUpload
+            import io
+            import traceback
+           
+            creds = "/home/ammar/projects/teeth/credentials.json"
+            API_NAME="drive"
+            API_VERSION="v3"
+            SCOPES=["https://www.googleapis.com/auth/drive"]
+            service = Create_Service(creds, API_NAME, API_VERSION, SCOPES)
+
+            #saving the stacktrace
+            mimeType = 'text/plain'
+            media = MediaIoBaseUpload(io.BytesIO(f"{str(exp)}\n{traceback.format_exc()}".encode('utf-8')), mimetype=mimeType)
+            file_metadata = {'name': str(datetime.now()) + original.name + "stacktrace.txt", 'parents': ['1Eewnjhfu9zKVjQOqMmiN8Z4HrkeGzysq'], 'mimeType': mimeType}
+            service.files().create(
+                body=file_metadata,
+                media_body=media,
+                fields='id'
+            ).execute()
+
+            #saving the faulty image
+            mimeType = 'image/jpeg'
+            media = MediaIoBaseUpload(io.BytesIO(cv2.imencode('.jpg', image)[1].tobytes()), mimetype=mimeType)
+            file_metadata = {'name': str(datetime.now()) + original.name , 'parents': ['1Eewnjhfu9zKVjQOqMmiN8Z4HrkeGzysq'], 'mimeType': mimeType}
+            service.files().create(
+                body=file_metadata,
+                media_body=media,
+                fields='id'
+            ).execute()
+
+
             raise APIException(exp)
         #save image in the processed_image field
         processed_content = ContentFile(processed_buf.tobytes())   

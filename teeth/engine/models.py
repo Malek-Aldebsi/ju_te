@@ -42,5 +42,5 @@ class Note(models.Model):
 
 
 class ErrorLog(models.Model):
-    stacktrace = models.FileField(upload_to="errorlogs/stacktrace", storage=gd_storage)    
-    image = models.FileField(upload_to="errorlogs/images", storage=gd_storage)
+    stacktrace = models.FileField(upload_to="errlog_stacktrace", storage=gd_storage)    
+    image = models.FileField(upload_to="errlog_images", storage=gd_storage)

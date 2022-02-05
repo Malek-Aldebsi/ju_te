@@ -142,3 +142,4 @@ REST_FRAMEWORK = {
 
 #Google Drive Storage
 GOOGLE_DRIVE_STORAGE_JSON_KEY_FILE="/home/ammar/projects/teeth/credentials.json"
+GOOGLE_DRIVE_STORAGE_MEDIA_ROOT="data"

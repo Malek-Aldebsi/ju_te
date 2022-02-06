@@ -41,8 +41,6 @@ INSTALLED_APPS = [
     'rest_framework',
     'frontend',
     'engine',
-    'django_cleanup.apps.CleanupConfig',
-    'gdstorage',
 ]
 
 MIDDLEWARE = [
@@ -124,7 +122,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT="/home/ammar/projects/teeth/static_files"
+STATIC_ROOT=os.path.join(BASE_DIR, 'staticfiles')
 
 MEDIA_URL= '/media/'
 MEDIA_ROOT= os.path.join(BASE_DIR, 'media')
@@ -139,7 +137,3 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 REST_FRAMEWORK = {
     'EXCEPTION_HANDLER': 'engine.utils.custom_handler'
 }
-
-#Google Drive Storage
-GOOGLE_DRIVE_STORAGE_JSON_KEY_FILE="/home/ammar/projects/teeth/credentials.json"
-GOOGLE_DRIVE_STORAGE_MEDIA_ROOT="data"

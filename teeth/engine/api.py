@@ -20,6 +20,10 @@ import numpy as np
 from django.http import HttpResponse
 import cv2
 import os
+from django.conf import settings
+from googleapiclient.http import MediaIoBaseUpload
+import io
+import traceback
 
 processors = {
     "buccal": buccal,
@@ -55,11 +59,9 @@ class AssessmentViewSet(viewsets.ModelViewSet):
             _ , processed_buf = cv2.imencode(extention, processed_image)
             _, shape_buf = cv2.imencode(extention, shape_image)
         except Exception as exp:
-            from googleapiclient.http import MediaIoBaseUpload, MediaFileUpload
-            import io
-            import traceback
-           
-            creds = "/home/ammar/projects/teeth/credentials.json"
+            
+            #authenticating to google drive api
+            creds = os.path.join(settings.BASE_DIR, "credentials.json") 
             API_NAME="drive"
             API_VERSION="v3"
             SCOPES=["https://www.googleapis.com/auth/drive"]

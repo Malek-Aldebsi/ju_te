@@ -1,13 +1,3 @@
-node_modules
-teeth/media
-*.log
-*.pot
-*.pyc
-teeth/teeth/__pycache__
-teeth/db.sqlite3
-static_files
-credentials.json
-
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

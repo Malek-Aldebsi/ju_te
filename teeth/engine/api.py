@@ -1,6 +1,6 @@
 from datetime import datetime
 from .google_service import Create_Service
-from .models import Assessment, ErrorLog, Note
+from .models import Assessment, Note
 from rest_framework import viewsets, permissions
 from .serializers import AssessmentSerializer, NoteSerializer
 from django.core.files.base import ContentFile

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 node_modules
 teeth/media
 *.log
@@ -8,6 +9,8 @@ teeth/db.sqlite3
 static_files
 credentials.json
 
+=======
+>>>>>>> 0fed618b12d111d37f99f38ad0d0a7cc5e1d29cf
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

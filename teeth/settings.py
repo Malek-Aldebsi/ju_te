@@ -145,7 +145,7 @@ REST_FRAMEWORK = {
 CORS_ORIGIN_ALLOW_ALL = False
 CORS_ORIGIN_WHITELIST = (
   'http://localhost:3000',
-  'https://shbzt01.github.io/'
+  'https://shbzt01.github.io'
 )
 
 django_on_heroku.settings(locals())

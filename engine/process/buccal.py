@@ -1,14 +1,32 @@
+import PIL
 import cv2
 import numpy as np
 from .utils import *
+import io
+import traceback
+from PIL import Image
+
+def buccal(img, type, ori):
+
+    if ori==7 or ori==8:
+        img = np.rot90(img, 1)
+    elif ori==5 or ori==6:
+        img = np.rot90(img, 3)
 
 
-def buccal(img, type):
+
+    img = cv2.resize(img, dsize=(1200, 1600), interpolation=cv2.INTER_CUBIC)
+    img = np.array(img[:, :, :3])
+
     perfect = PERFECTS["buccal"][type]
     org = img
     gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    ret, thresh_img = cv2.threshold(gray_img, 70, 255, 0)
-    gcnt, mask = find_rubber(img)
+    ret2, thresh_img = cv2.threshold(gray_img, np.min(gray_img), np.max(gray_img),
+                                     cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+    thresh_img = cv2.dilate(thresh_img, kernel, iterations=1)
+    new_thresh = (img & cv2.cvtColor((thresh_img), cv2.COLOR_GRAY2BGR))
+    gcnt, mask = find_rubber(new_thresh)
+    thresh_img = cv2.erode(thresh_img, kernel, iterations=1)
     thresh_img = cv2.bitwise_and(thresh_img, thresh_img, mask=mask)
     thresh_img = cv2.erode(thresh_img, kernel, iterations=1)
     rubber_bootom = tuple(gcnt[gcnt[:, :, 1].argmax()][0])
@@ -17,10 +35,11 @@ def buccal(img, type):
     contours, hierarchy = cv2.findContours(thresh_img, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     rubber_bootom = tuple(gcnt[gcnt[:, :, 1].argmax()][0])
     cnt_base = find_base(contours, rubber_bootom)
-    cnt_tooth = find_crown(contours, rubber_bootom)
+
     extLeft_base = (cnt_base[cnt_base[:, :, 0].argmin()][0])
     extRight_base = (cnt_base[cnt_base[:, :, 0].argmax()][0])
     pix_for_mm = ((extRight_base[0] - extLeft_base[0]) / 47)
+    cnt_tooth = find_crown(contours, rubber_bootom)
     extLeft_tooth = (cnt_tooth[cnt_tooth[:, :, 0].argmin()][0])
     extRight_tooth = (cnt_tooth[cnt_tooth[:, :, 0].argmax()][0])
     extTop_tooth = (cnt_tooth[cnt_tooth[:, :, 1].argmin()][0])
@@ -29,22 +48,23 @@ def buccal(img, type):
     cervix_pointr = (gcnt[gcnt[:, :, 0].argmax()][0])
     mid = int((cervix_pointl[0] + cervix_pointr[0]) / 2)
     cv2.line(org, (mid, 10000000), (mid, -10000000), (0, 255, 0), thickness=int(pix_for_mm))
+
     vy = rubber_bootom[1]
-    line4 = vy;
+    line4 = vy
     cv2.line(org, (10000000, vy), (-10000000, vy), (0, 255, 0), thickness=int(pix_for_mm))
-    cv2.putText(org, "l4", (vy , vy), cv2.FONT_HERSHEY_SIMPLEX, 1, (70, 0, 200), 2)
+    cv2.putText(org, "l4", (5 , vy-7), cv2.FONT_HERSHEY_SIMPLEX, 1, (70, 0, 200), 2)
     cv2.line(org, (1000000, int(vy - (((14) * pix_for_mm)))), (-1000000, int(vy - ((14) * pix_for_mm))), (0,255,0),
              thickness=int(pix_for_mm))
     vy = int(vy - ((14) * pix_for_mm))
-    cv2.putText(org, "l3", (vy, vy), cv2.FONT_HERSHEY_SIMPLEX, 1, (70, 0, 200), 2)
+    cv2.putText(org, "l3", (5, vy-7), cv2.FONT_HERSHEY_SIMPLEX, 1, (70, 0, 200), 2)
     cv2.line(org, (1000000, int(vy - (((14) * pix_for_mm)))), (-1000000, int(vy - ((14) * pix_for_mm))), (0, 255, 0),
              thickness=int(pix_for_mm))
     vy = int(vy - ((14) * pix_for_mm))
-    cv2.putText(org, "l2", (vy, vy), cv2.FONT_HERSHEY_SIMPLEX, 1, (70, 0, 200), 2)
+    cv2.putText(org, "l2", (5, vy-7), cv2.FONT_HERSHEY_SIMPLEX, 1, (70, 0, 200), 2)
     cv2.line(org, (1000000, int(vy - (((14) * pix_for_mm)))), (-1000000, int(vy - ((14) * pix_for_mm))), (0, 255, 0),
              thickness=int(pix_for_mm))
     line1 = int(vy - ((14) * pix_for_mm))
-    cv2.putText(org, "l1", (line1, line1), cv2.FONT_HERSHEY_SIMPLEX, 1, (70, 0, 200), 2)
+    cv2.putText(org, "l1", (5, line1-7), cv2.FONT_HERSHEY_SIMPLEX, 1, (70, 0, 200), 2)
     cv2.circle(org, tuple(extLeft_tooth), 4, (0, 255, 255), -1)
     cv2.circle(org, tuple(extRight_tooth), 4, (0, 255, 255), -1)
     cv2.circle(org, tuple(extTop_tooth), 4, (0, 255, 255), -1)
@@ -52,16 +72,16 @@ def buccal(img, type):
     cv2.circle(org, tuple(cervix_pointr), 4, (0, 255, 255), -1)
     cv2.circle(org, tuple(extRight_base), 4, (0, 255, 255), -1)
     cv2.circle(org, tuple(extLeft_base), 4, (0, 255, 255), -1)
-    cv2.putText(org, "5", (cervix_pointl[0] + 5, cervix_pointr[1] - 5), cv2.FONT_HERSHEY_SIMPLEX, 2, (255, 0, 0),
+    cv2.putText(org, "5", (cervix_pointl[0] + 5, cervix_pointr[1] - 5), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 255),
                 2)
-    cv2.putText(org, "6", (cervix_pointr[0] + 5, cervix_pointr[1] - 5), cv2.FONT_HERSHEY_SIMPLEX, 2, (255, 0, 0),
+    cv2.putText(org, "6", (cervix_pointr[0] + 5, cervix_pointr[1] - 5), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 255),
                 2)
-    cv2.putText(org, "1", (extTop_tooth[0] + 5, extTop_tooth[1] - 5), cv2.FONT_HERSHEY_SIMPLEX, 2, (255, 0, 0),
+    cv2.putText(org, "1", (extTop_tooth[0] + 5, extTop_tooth[1] - 5), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 255),
                 2)
-    cv2.putText(org, "3", (extLeft_tooth[0] + 5, extLeft_tooth[1] - 5), cv2.FONT_HERSHEY_SIMPLEX, 2, (255, 0, 0),
+    cv2.putText(org, "3", (extLeft_tooth[0] + 5, extLeft_tooth[1] - 5), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 255),
                 2)
     cv2.putText(org, "4", (extRight_tooth[0] + 5, extRight_tooth[1] - 5), cv2.FONT_HERSHEY_SIMPLEX, 2,
-                (255, 0, 0), 2)
+                (0, 0, 255), 2)
     a1 = f" 5 to 6 is(width at cervix) {round((abs(cervix_pointl[0] - cervix_pointr[0]) / pix_for_mm), 2)}"
     a2 = f"3 to ml {round((abs(extLeft_tooth[0] - mid)) / pix_for_mm, 2)}"
     a3 = f"4 to Ml {round(abs(extRight_tooth[0] - mid) / pix_for_mm, 2)}"
@@ -104,8 +124,11 @@ def buccal(img, type):
     cv2.drawContours(blank_image1, [cnt_tooth], -1, (255, 255, 255), -1)
     cv2.drawContours(blank_image2, [cnt_perfect], -1, (255, 255, 255), -1, offset=(x_t-x_p, y_t-y_p))
     shape_img = np.zeros((img.shape[0], img.shape[1], 3), np.uint8)
+
     cv2.drawContours(shape_img, [cnt_tooth], -1, (255, 255, 255), -1)
     cv2.drawContours(shape_img, [cnt_perfect], -1, (0, 0, 139), 10, offset=(x_t-x_p, y_t-y_p))
+    #cv2.circle(shape_img, tuple(cervix_pointl), 4, (0, 255, 255), -1)
+    #cv2.circle(shape_img, tuple(cervix_pointr), 4, (0, 255, 255), -1)
     shape_match= shapeMatch(blank_image1, blank_image2,cnt_perfect)
     a10 = f"shape matching= {shape_match}"
     arrayofString.append(a10)
@@ -116,3 +139,4 @@ def buccal(img, type):
     img = cv2.resize(img, dim, interpolation=cv2.INTER_AREA)
     org = cv2.resize(org, dim, interpolation=cv2.INTER_AREA)
     return arrayofString, org,shape_img#,(rubber_bootom[1] - extTop_tooth[1]) / pix_for_mm
+

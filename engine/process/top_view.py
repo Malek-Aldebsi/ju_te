@@ -6,8 +6,10 @@ def top_view(img, type):
     perfect = PERFECTS["top_view"][type]
     org = img
     gray_tv = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    ret, thresh_tv = cv2.threshold(gray_tv, 80, 255, 0)
-    thresh_tv = cv2.erode(thresh_tv, kernel, iterations=1)
+    ret, thresh_img = cv2.threshold(gray_tv, np.min(gray_tv), np.max(gray_tv), cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+    thresh_img = cv2.dilate(thresh_img, kernel, iterations=1)
+    new_thresh = (img & cv2.cvtColor((thresh_img), cv2.COLOR_GRAY2BGR))
+    thresh_tv = cv2.erode(new_thresh, kernel, iterations=1)
     tcontours, hierarchy = cv2.findContours(thresh_tv, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     cnt_perfect=0
     tcnt=0
